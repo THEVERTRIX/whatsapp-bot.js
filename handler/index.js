@@ -1,6 +1,6 @@
-const { glob } = require("glob");
-const { Client } = require('whatsapp-web.js')
-const path = require('path')
+const fs = require('fs');
+const { Client } = require('whatsapp-web.js');
+const path = require('path');
 
 /**
  * @param {Client} client
@@ -8,9 +8,10 @@ const path = require('path')
 
 module.exports = async (client) => {
     // Commands
-    const commandFiles = await glob(`${process.cwd()}/commands/**/*.js`);
+    const commandFiles = fs.readdirSync(path.join(__dirname, '../commands')).filter(file => file.endsWith('.js'));    
+    
     commandFiles.map((value) => {
-        const file = require(value);
+        const file = require(path.join(__dirname, '../commands', value));
         const splitted = value.split(path.sep);
         const directory = splitted[splitted.length - 2];
 
@@ -21,6 +22,6 @@ module.exports = async (client) => {
     });
 
     // Events
-    const eventFiles = await glob(`${process.cwd()}/events/*.js`);
-    eventFiles.map((value) => require(value));
+    const eventFiles = fs.readdirSync(path.join(__dirname, '../events')).filter(file => file.endsWith('.js'));
+    eventFiles.map((value) => require(path.join(__dirname, '../events', value)));
 }
