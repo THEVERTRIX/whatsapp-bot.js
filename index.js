@@ -10,11 +10,15 @@ const wwebVersion = '2.2412.54';
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        channel: 'chrome'
+        headless: true,
+        // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || null,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu'
+        ]
     },
-    args: [
-        '--no-sandbox',
-    ],
     webVersionCache: {
         type: 'remote',
         remotePath: "https://cdn.jsdelivr.net/gh/pedroslopez/whatsapp-web.js@v" + wwebVersion + "/dist/whatsapp-web.js"

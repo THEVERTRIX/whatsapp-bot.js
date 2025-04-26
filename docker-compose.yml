@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    image: bot
+    working_dir: /usr/src/app
+    restart: always
